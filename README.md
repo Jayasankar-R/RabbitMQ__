@@ -1,26 +1,30 @@
 # 🐇 RabbitMQ with AMQP — Learning Journey
 
-This repository documents my learning of **RabbitMQ** using the **AMQP protocol (0-9-1)**. I'm exploring how producers, exchanges, queues, and consumers work together using **direct** and **topic** exchange types.
+This repository documents my learning of **RabbitMQ** using the **AMQP protocol (0-9-1)**. I'm exploring how producers, exchanges, queues, and consumers work together using:
+
+- ✅ Direct exchange
+- ✅ Topic exchange
+- ✅ Fanout exchange
 
 ---
 
 ## 📦 Technologies Used
 
-- **RabbitMQ** (via Docker)
-- **AMQP protocol** (Advanced Message Queuing Protocol)
-- AMQP client libraries:
-  - (Insert here: `amqplib` for Node.js, `pika` for Python, etc.)
+- RabbitMQ (Docker)
+- AMQP protocol (`amqplib`, `pika`, or Spring AMQP)
+- Language: (insert: Node.js / Python / Java etc.)
 
 ---
 
 ## 📚 Concepts Covered
 
-### ✅ AMQP Core Elements:
-- 📨 **Producer** sends a message via AMQP
-- 🛤️ **Exchange** routes messages to queues
-- 📦 **Queue** stores messages
-- 📬 **Consumer** pulls messages from queues
-- 📎 **Binding** links queues to exchanges with routing keys
+| Concept        | Description |
+|----------------|-------------|
+| Producer       | Sends message to exchange |
+| Exchange       | Routes message to queue(s) |
+| Queue          | Stores messages |
+| Binding        | Links queue to exchange |
+| Consumer       | Receives messages from queues |
 
 ---
 
@@ -28,8 +32,9 @@ This repository documents my learning of **RabbitMQ** using the **AMQP protocol 
 
 | Exchange Type | Description |
 |---------------|-------------|
-| `direct`      | Routes based on **exact match** routing key |
-| `topic`       | Routes based on **wildcard pattern** matching |
+| `direct`      | Exact routing key match |
+| `topic`       | Pattern-based routing using wildcards (`*`, `#`) |
+| `fanout`      | **Broadcasts** message to **all bound queues**, **ignores routing keys** |
 
 ---
 
