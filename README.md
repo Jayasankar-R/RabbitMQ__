@@ -1,45 +1,44 @@
 # 🐇 RabbitMQ with AMQP — Learning Journey
 
-This repository documents my hands-on learning with **RabbitMQ** using the **AMQP 0-9-1 protocol**. I'm exploring how producers, exchanges, queues, and consumers interact using various exchange types.
+This repository contains hands-on learning of RabbitMQ using the **AMQP 0-9-1** protocol.
 
 ---
 
-## 📦 Technologies Used
+## 📦 Tech Stack
 
-- RabbitMQ (via Docker)
-- AMQP protocol
-- Language: (insert: Node.js / Python / Java / etc.)
-- Client library: (e.g., `amqplib`, `pika`, Spring AMQP)
-
----
-
-## 📚 Concepts Covered
-
-| Concept    | Description |
-|------------|-------------|
-| **Producer** | Sends messages to an exchange |
-| **Exchange** | Routes messages to queues |
-| **Queue**    | Stores messages |
-| **Binding**  | Connects queue to exchange |
-| **Consumer** | Consumes messages from queues |
-| **Routing**  | Routing logic varies by exchange type |
+- RabbitMQ via Docker
+- AMQP protocol (`amqplib`, `pika`, or Spring AMQP)
+- Language: Node.js / Python / Java
 
 ---
 
-## 🔁 Exchange Types Covered
+## ✅ Concepts Covered
 
-| Exchange Type | Description |
-|---------------|-------------|
-| `direct`      | Routes by exact routing key match |
-| `topic`       | Pattern-based routing using wildcards |
-| `fanout`      | Broadcasts to **all bound queues**, ignores routing keys |
-| `headers`     | Routes based on **header key-value matching**, **not routing keys** |
+| ✅ Topic                 | Description |
+|-------------------------|-------------|
+| Producer/Consumer       | Basic message flow |
+| Direct exchange         | Routes by exact routing key |
+| Topic exchange          | Wildcard-based routing |
+| Fanout exchange         | Broadcasts to all queues |
+| Headers exchange        | Routes by headers (not routing keys) |
+| Priority queues 🆕      | Processes high-priority messages first |
 
 ---
 
-## 🛠️ RabbitMQ Setup (Docker)
+## 🧪 Priority Queues
 
-```bash
-docker run -d --hostname rabbit-host --name rabbitmq \
-  -p 5672:5672 -p 15672:15672 \
-  rabbitmq:management
+### ✅ What is it?
+
+Priority queues allow RabbitMQ to **process high-priority messages first**, even if they were published later.
+
+### 🔧 How to Enable:
+
+1. Declare the queue with `x-max-priority`:
+
+```js
+channel.assertQueue("priority_queue", {
+  durable: true,
+  arguments: {
+    "x-max-priority": 10 // Max priority value
+  }
+});

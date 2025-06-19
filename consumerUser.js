@@ -4,11 +4,17 @@ async function recMail() {
     try {
           const connection =await amqp.connect("amqp://localhost")
           const channel =await connection.createChannel()
-          await channel.assertQueue("mail_queue_to_user",{durable:false})
+          const queue="priority_queue"
 
-          channel.consume("mail_queue_to_user",(message)=>{
+          await channel.assertQueue(queue,{
+            durable:true,
+            arguments:{"x-max-priority":50}
+        })
+          console.log(`waiting ${queue}.To exit CTRL C`)
+
+          channel.consume(queue,(message)=>{
             if(message!=null){
-                console.log("message received for user",JSON.parse(message.content))
+                console.log(`message received ,${message.content.toString()}`)
                 channel.ack(message)
 
             }

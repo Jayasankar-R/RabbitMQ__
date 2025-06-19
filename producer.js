@@ -1,21 +1,40 @@
 const amqp = require('amqplib');
 
- const sendMessage=async function sendMail(headers,message) {
+async function sendMail() {
     try {
         const connection =await amqp.connect("amqp://localhost")
         const channel =await connection.createChannel()
-        const exchange ="header_exchange";
-        const exchangeType="headers";
+        const exchange ="priority_exchange";
+        const routingKey="priority_key";
 
-        
-        await channel.assertExchange(exchange,exchangeType,{durable:true})
-        
-        
-        channel.publish(exchange,"",Buffer.from(message),{
-            persistent:true,
-            headers:headers
+        const queue="priority_queue"
+        await channel.assertExchange(exchange,"direct",{durable:true})
+        await channel.assertQueue(queue,{
+            durable:true,
+            arguments:{"x-max-priority":50}
         })
-        console.log("Sent notification with headers =>>",message)
+        await channel.bindQueue(queue,exchange,routingKey)
+
+        const data=[
+            {
+                msg:"hello low:1",
+                priority:1
+            },
+            {
+                msg:"hello high:8",
+                priority:8
+            },
+            {
+                msg:"hello mid:2",
+                priority:2
+            }
+        ]
+
+        data.map((msg)=>{
+            channel.publish(exchange,routingKey,Buffer.from(msg.msg),{priority:msg.priority})
+        })
+       
+        console.log(" All sent message=>>")
 
         setTimeout(()=>{
             connection.close()
@@ -26,7 +45,4 @@ const amqp = require('amqplib');
     }
     
 }
-sendMessage({"x-match":"all","notification-type":"new_video","content-type":"video"},"New video uploaded")
-sendMessage({"x-match":"all","notification-type":"live_stream","content-type":"gaming"},"gaming live started ")
-sendMessage({"x-match":"any","notification-type-comment":"comment","content-type":"vlog"},"New comment uploaded")
-sendMessage({"x-match":"any","notification-type-like":"like","content-type":"vlog"},"New like uploaded")
+sendMail()
