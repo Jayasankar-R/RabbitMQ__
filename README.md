@@ -1,44 +1,43 @@
 # 🐇 RabbitMQ with AMQP — Learning Journey
 
-This repository documents my learning of **RabbitMQ** using the **AMQP protocol (0-9-1)**. I'm exploring how producers, exchanges, queues, and consumers work together using:
-
-- ✅ Direct exchange
-- ✅ Topic exchange
-- ✅ Fanout exchange
+This repository documents my hands-on learning with **RabbitMQ** using the **AMQP 0-9-1 protocol**. I'm exploring how producers, exchanges, queues, and consumers interact using various exchange types.
 
 ---
 
 ## 📦 Technologies Used
 
-- RabbitMQ (Docker)
-- AMQP protocol (`amqplib`, `pika`, or Spring AMQP)
-- Language: (insert: Node.js / Python / Java etc.)
+- RabbitMQ (via Docker)
+- AMQP protocol
+- Language: (insert: Node.js / Python / Java / etc.)
+- Client library: (e.g., `amqplib`, `pika`, Spring AMQP)
 
 ---
 
 ## 📚 Concepts Covered
 
-| Concept        | Description |
-|----------------|-------------|
-| Producer       | Sends message to exchange |
-| Exchange       | Routes message to queue(s) |
-| Queue          | Stores messages |
-| Binding        | Links queue to exchange |
-| Consumer       | Receives messages from queues |
+| Concept    | Description |
+|------------|-------------|
+| **Producer** | Sends messages to an exchange |
+| **Exchange** | Routes messages to queues |
+| **Queue**    | Stores messages |
+| **Binding**  | Connects queue to exchange |
+| **Consumer** | Consumes messages from queues |
+| **Routing**  | Routing logic varies by exchange type |
 
 ---
 
-## 🔁 Exchange Types Learned
+## 🔁 Exchange Types Covered
 
 | Exchange Type | Description |
 |---------------|-------------|
-| `direct`      | Exact routing key match |
-| `topic`       | Pattern-based routing using wildcards (`*`, `#`) |
-| `fanout`      | **Broadcasts** message to **all bound queues**, **ignores routing keys** |
+| `direct`      | Routes by exact routing key match |
+| `topic`       | Pattern-based routing using wildcards |
+| `fanout`      | Broadcasts to **all bound queues**, ignores routing keys |
+| `headers`     | Routes based on **header key-value matching**, **not routing keys** |
 
 ---
 
-## 🛠️ Setup (RabbitMQ via Docker)
+## 🛠️ RabbitMQ Setup (Docker)
 
 ```bash
 docker run -d --hostname rabbit-host --name rabbitmq \
