@@ -4,11 +4,11 @@ async function recMail() {
     try {
           const connection =await amqp.connect("amqp://localhost")
           const channel =await connection.createChannel()
-          await channel.assertQueue("mail_queue",{durable:false})
+          await channel.assertQueue("mail_queue_to_subscribe",{durable:false})
 
-          channel.consume("mail_queue",(message)=>{
+          channel.consume("mail_queue_to_subscribe",(message)=>{
             if(message!=null){
-                console.log("message received",JSON.parse(message.content))
+                console.log("message received for Sub user",JSON.parse(message.content))
                 channel.ack(message)
 
             }

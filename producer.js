@@ -5,18 +5,21 @@ async function sendMail() {
         const connection =await amqp.connect("amqp://localhost")
         const channel =await connection.createChannel()
         const exchange ="mail_exchange";
-        const routingKey="send_mail";
+        const routingKeyForSub="send_mail_to_sub_user";
+        const routingKeyForNormal="send_mail_to_user";
         const message={
-            to:"ja@gmail.com",
-            from:"ja2@gmail.com",
-            subject:"Hello Learn",
+            to:"jayaaaokkk@gmail.com",
+            from:"jaaa2@gmail.com",
+            subject:"Hello Learn okkkkk",
             body:"hi how are u"
         }
         await channel.assertExchange(exchange,"direct",{durable:false})
-        await channel.assertQueue("mail_queue",{durable:false})
+        await channel.assertQueue("mail_queue_to_subscribe",{durable:false})
+        await channel.assertQueue("mail_queue_to_user",{durable:false})
 
-        await channel.bindQueue("mail_queue",exchange,routingKey)
-        channel.publish(exchange,routingKey,Buffer.from(JSON.stringify(message)))
+        await channel.bindQueue("mail_queue_to_subscribe",exchange,routingKeyForSub)
+        await channel.bindQueue("mail_queue_to_user",exchange,routingKeyForNormal)
+        channel.publish(exchange,routingKeyForSub,Buffer.from(JSON.stringify(message)))
         console.log("message sent",message)
 
         setTimeout(()=>{
