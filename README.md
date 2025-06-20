@@ -1,44 +1,24 @@
 # 🐇 RabbitMQ with AMQP — Learning Journey
 
-This repository contains hands-on learning of RabbitMQ using the **AMQP 0-9-1** protocol.
+This repository contains hands-on learning of RabbitMQ using the **AMQP 0-9-1** protocol and real-world patterns like message routing and delayed processing.
 
 ---
 
 ## 📦 Tech Stack
 
-- RabbitMQ via Docker
-- AMQP protocol (`amqplib`, `pika`, or Spring AMQP)
-- Language: Node.js / Python / Java
+- **RabbitMQ** (via Docker)
+- **AMQP protocol** (`amqplib` for Node.js, `pika` for Python, Spring AMQP for Java)
+- **Language:** Node.js (main), extendable to Python or Java
 
 ---
 
 ## ✅ Concepts Covered
 
-| ✅ Topic                 | Description |
-|-------------------------|-------------|
-| Producer/Consumer       | Basic message flow |
-| Direct exchange         | Routes by exact routing key |
-| Topic exchange          | Wildcard-based routing |
-| Fanout exchange         | Broadcasts to all queues |
-| Headers exchange        | Routes by headers (not routing keys) |
-| Priority queues 🆕      | Processes high-priority messages first |
-
----
-
-## 🧪 Priority Queues
-
-### ✅ What is it?
-
-Priority queues allow RabbitMQ to **process high-priority messages first**, even if they were published later.
-
-### 🔧 How to Enable:
-
-1. Declare the queue with `x-max-priority`:
-
-```js
-channel.assertQueue("priority_queue", {
-  durable: true,
-  arguments: {
-    "x-max-priority": 10 // Max priority value
-  }
-});
+| ✅ Topic              | Description |
+|----------------------|-------------|
+| Producer/Consumer    | Basic message flow |
+| Direct exchange      | Routes messages by exact routing key |
+| Topic exchange       | Routes using wildcard patterns (`*`, `#`) |
+| Fanout exchange      | Broadcasts messages to all bound queues |
+| Delayed queues 🕒     | Delay message delivery using a plugin-based exchange |
+| Lazy queues 🐢        | Stores messages on disk to reduce memory usage |
